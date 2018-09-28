@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mappping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.forum.bean">
+  <class name="ForumPost" table="forum_post">
+      <id name="postId" column="post_id" type="java.lang.Integer">
+          <generator class="increment"></generator>
+      </id>
+      <property name="postName" length="30" type="java.lang.String" column="post_name" not-null="true"></property>
+      <property name="postContent" length="100" type="java.lang.String" column="post_content" not-null="true"></property>
+      <property name="postTime"  type="java.util.Date" column="post_time" ></property>
+
+      <!-- 如何去合理设置条件，帮助hibernate系统得到属于这个post的所有的reply?
+       1. table="forumreply"
+                   select * from forumreply
+       2. <key column="post_id"></key>
+                    这是一个过滤条件
+          select * from forumreply where post_id=@forumpost.postId
+       3. <one-to-many class="ForumReply"/>
+                 把前二步的查询所得到的记录，按照ForumReply这个类的映射机制来封装成ForumReply对象。    
+       4. cascade="all"
+                 级联操作，当系统对forumpost做操作的时候，也将一起对forumreply做操作。    
+       5. inverse="true"
+                 代表关系的维护动作转交给对象 
+       6. fetch="join"
+                 代表该属性的获取模式 ，如果没有设置，多方往往是新开一条语句来获取。                                    
+      -->
+      <set name="replys" table="forum_reply" cascade="all" inverse="true" fetch="join">
+          <!-- 外键 : forum_reply这张表的外键字段名-->
+          <key column="post_id"></key>
+          <!-- 封装方式 -->
+          <one-to-many class="ForumReply"/>
+      </set>
+  </class>
+</hibernate-mapping>

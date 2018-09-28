@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.forum.bean">
+   <class name="ForumReply" table="forum_reply">
+       <id name="replyId" column="reply_id" type="java.lang.Integer">
+           <!--主键生成模式-->
+           <generator class="increment"/>
+       </id>
+      <property name="replyContent" type="java.lang.String" column="reply_content" not-null="true" length="100"></property>
+      <property name="replyTime" type="java.util.Date" column="reply_time"></property>
+       <!-- 类属性 -->
+       <!--  如何找到属于这个reply的post?
+           1.   class="ForumPost"
+                select * from forum_post;
+           2.   column="post_id"
+                select * from forum_post where post_id=@post_id
+        -->
+       <!--封装方式-->
+       <many-to-one name="post" column="post_id" class="ForumPost" not-null="true" cascade="all"/>
+   </class>
+</hibernate-mapping>

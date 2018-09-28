@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.hibernate.domain">
+    <class name="Citizen" table="t_citizen">
+
+        <id name="idcard" type="string" column="idcard" length="8">
+            <generator class="assigned"></generator>
+        </id>
+
+        <property name="citizenName" column="name" type="string" length="20" not-null="true"></property>
+
+        <one-to-one name="building" class="Building" cascade="all"  constrained="false"/>
+    </class>
+</hibernate-mapping>

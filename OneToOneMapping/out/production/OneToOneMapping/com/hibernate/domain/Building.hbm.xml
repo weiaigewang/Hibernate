@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.hibernate.domain">
+    
+    <class name="Building" table="t_building">
+        <!--
+         如何去确定当前building的编号？
+         通过外键来确定，只要外键有了，主键就有了，因为主外键是重合的。
+         外键到哪里找？ 请到本类一个叫做buidlingHolder的属性中去找，去找这个对象的id即可。
+      -->
+        <id name="buildingNo" type="java.lang.String" column="building_no" length="8">
+            <generator class="foreign">
+                <param name="property">buildingHolder</param>
+            </generator>
+        </id>
+        <property name="buildingType" type="java.lang.String" column="building_type" length="20"/>
+        <!--
+        注意: 这里的constrained=true,表明了当前的bulidingHolder必须和一个Building对象关联,
+        这个关系是强制的。当使用one-to-one获得对象的时候, 如果能够加constrained=true的,
+        尽量加, 因为很多情况下,一个实体通过one-to-one关联的实体可能存在,也可能不存在,
+        这时,在查询实体的时候,hibernate总是发起一次查询检查<one-to-one>所关联的实体是否存在,
+        而如果把constrained设置为true,这个步骤则可以省略,直接加载对象.
+    -->
+        <one-to-one name="buildingHolder" class="Citizen" constrained="true"/>
+    </class>
+</hibernate-mapping>

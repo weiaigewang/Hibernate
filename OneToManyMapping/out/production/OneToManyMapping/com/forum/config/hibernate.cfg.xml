@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory >
+        <!--//MySQL驱动类-->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!--//MySQL连接端口号（3306）与数据库（myee）-->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/forum</property>
+        <!--//MySQL用户名-->
+        <property name="hibernate.connection.username">root</property>
+        <!--//MySQL用户密码-->
+        <property name="connection.password">123456</property>
+        <!--//dialect翻译为方言 Hibernate根据你选择的“方言”，针对每种数据库，作调整，-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!--如生成不同的SQL语句等-->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <mapping resource="com/forum/bean/ForumPost.hbm.xml"/>
+        <mapping resource="com/forum/bean/ForumReply.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

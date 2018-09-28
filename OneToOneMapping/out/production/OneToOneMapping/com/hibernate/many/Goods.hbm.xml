@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.hibernate.many">
+
+    <class name="Goods" table="t_goods">
+
+        <id name="goodsId" type="int" column="goods_id">
+            <generator class="increment"></generator>
+        </id>
+
+        <property name="goodsName" column="goods_name" type="string" length="30" not-null="true"></property>
+        <property name="goodsPrice" column="goods_price" type="double"></property>
+        <!--
+          1. table="t_goods_category"
+             select * from t_goods_category
+          2. <key column="goods_id"/>
+             select * from t_goods_category where goods_id=@goods_id
+          3. column="category_id"
+             select category_id from t_goods_category where goods_id=@goods_id
+          4. class="Category"
+                  根据该类定义，去获得所有的category对象。
+         -->
+        <set name="categories" table="t_goods_category" cascade="all">
+            <!-- 外键 -->
+            <key column="goods_id"/>
+            <many-to-many class="Category" column="category_id"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+CREATE DATABASE forum;
+USE forum;
+create table forum_post(
+ post_id  INT NOT NULL AUTO_INCREMENT,
+ post_name VARCHAR(30) NOT NULL,
+ post_content VARCHAR(100),
+ post_time DATE,
+ constraint PK_FORUMPOST primary key(post_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table forum_reply(
+  reply_id INT NOT NULL AUTO_INCREMENT,
+  post_id INT NOT NULL,
+  reply_content varchar(100) not null,
+  reply_time DATE,
+  constraint PK_FORUMREPLY PRIMARY KEY(reply_id),
+  constraint FK_FORUMREPLY foreign key(post_id) references forum_post(post_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

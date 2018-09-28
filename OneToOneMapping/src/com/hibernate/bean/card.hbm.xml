@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.hibernate.bean">
+    
+    <class name="Card" table="t_student_card">
+        <!--
+         数据类型方面可以使用hibernate数据类型，比如int,也可以使用java数据类型，
+         比如java.lang.Integer
+        -->
+        <id name="cardNo" type="java.lang.String" column="card_no">
+            <!--
+                uuid: 全球唯一标识符 （时间+ip+mac...)  128bit二进制数
+                uuid.hex   uuid.bin十六进制转换版本
+        -->
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="cardIssueDate" type="java.util.Date" column="card_issue_date" not-null="true"/>
+        <!--
+          1. class="Student"
+             select * from t_student;
+          2. column="stu_id"
+             select * from t_student where stu_id=@stu_id;
+             unique="true"
+         -->
+        <many-to-one name="cardHolder" column="stu_id" class="Student" unique="true"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.hibernate.bean">
+
+    <class name="Student" table="t_student">
+        <!--
+         数据类型方面可以使用hibernate数据类型，比如int,也可以使用java数据类型，
+         比如java.lang.Integer
+        -->
+        <id name="stuId" type="int" column="stu_id">
+            <!-- 由使用者自己确保主键唯一 -->
+            <generator class="assigned"/>
+        </id>
+        <property name="stuName" type="string" column="stu_name" length="20"/>
+        <!--
+          如何提供一些条件以帮助hibernate去找到属于当前这个学生的card呢？
+          隐式条件：
+           1. 当前学生的学号   Student.stuId
+                显式条件：
+           2. class="Card"
+                card属性所对应的对象是Card类的实例 -> select * from t_student_card
+           3. property-ref="cardHolder"
+                     查找每一个card的cardHolder,
+                     如果你发现某个card的cardHolder属性所对应的student和当前的student的stuId是一致的话，
+                     那么这个card就是我们所需要的。
+         -->
+        <one-to-one name="card" class="Card" property-ref="cardHolder" cascade="all"></one-to-one>
+    </class>
+</hibernate-mapping>
